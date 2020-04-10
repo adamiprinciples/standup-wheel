@@ -57,7 +57,8 @@ module.exports = ({ environment }) => {
             options: {
               name: "[name].[ext]",
               outputPath: 'assets/',
-              publicPath: "/assets"
+              publicPath: "/assets",
+              esModule: false
             }
           }
         },

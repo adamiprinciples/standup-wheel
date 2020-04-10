@@ -5,39 +5,140 @@
   box-sizing: border-box;
 }
 
+$offset: 10deg;
+
+@keyframes peggy {
+  @for $i from 0 through 100 {
+    #{$i * 1%} {
+      @if $i < 87 {      
+        @if $i % 2 == 0{
+          transform: rotate(#{$offset});
+        }
+        @else {
+          transform: rotate(-#{$offset});
+        }
+      }
+      @else {
+        #{$i * 1%} {
+          transform: rotate(-#{$offset});
+        }
+      }
+    } 
+  }
+}
+
+.wrapper{
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  > div{
+     flex: 1;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+  }
+}
+
+.ui-wrapper{
+  flex-direction: column;
+}
+
+.ticker{
+  height: 5px;
+  width: 50px;
+  background: red;
+  position: absolute;
+  left: calc(50% + 230px);
+  top: 50%;
+  transform-origin: 100% 0;
+  transform: rotate(-20deg);
+  &.spinning{
+    animation-name: peggy;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+  }
+}
+
+.wheel-house{
+  position: relative;
+}
+
+.name-holder{
+  height: 175px;
+  text-align: center;
+}
+
 .wheel{
-  background: gray;
+  background: #303030; 
   border-radius: 50%;
   height: 500px;
   width: 500px;
   position: relative;
-  border: 2px solid black;
-  transition: all;
+  border: 5px solid #a1110d;
+  transition-property: all;
+  transition-timing-function: ease-out;
   .center{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: black;
-    width: 20px;
-    height: 20px;
+    width: 275px;
+    height: 275px;
     border-radius: 50%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 5px solid #a1110d;
   }
   .seg{
-    border-bottom: 2px solid black;
+    border-bottom: 3px solid rgba(0,0,0,0.2);
     width: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform-origin: 0 0;
     text-align: right;
+    // &:before{
+    //   content: '';
+    //   position: absolute;
+    //   width: 100%;
+    //   height: 70px;
+    //   background: red;
+    //   left: 0;
+    //   z-index: -1;
+    // }
+    // &:nth-of-type(odd){
+    //   &:before{
+    //     background: blue;
+    //   }
+    // }
     label{
       position: absolute;
       width: 100%;
       left: 0;
       transform-origin: 0 0;
-      padding-right: 30px;
+      padding-right: 20px;
       font-size: 20px;
+      color: white;
+      font-weight: 500;
+    }
+    .peg{
+      transform-origin: 0 0;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      
+      &:after{
+        content: '';
+        height: 20px;
+        width: 20px;
+        background: #545454;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+      }
     }
   }
 }
