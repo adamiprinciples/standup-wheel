@@ -27,11 +27,22 @@ $offset: 10deg;
   }
 }
 
+html{
+  background-color: rgb(49,49,49);
+  color: white;
+  overflow: hidden;
+}
+
+h1{
+  animation-delay: 0.2s !important;
+}
+
 .wrapper{
   display: flex;
   height: 100%;
   justify-content: center;
   align-items: center;
+  padding-right: 40px;
   > div{
      flex: 1;
      display: flex;
@@ -123,6 +134,11 @@ $offset: 10deg;
       font-size: 20px;
       color: white;
       font-weight: 500;
+    }
+    &.drawn{
+      label{
+        opacity: 0.2;
+      }
     }
     .peg{
       transform-origin: 0 0;

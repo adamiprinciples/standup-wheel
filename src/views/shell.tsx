@@ -15,11 +15,6 @@ export const Shell: React.FunctionComponent<{}> = props => {
   return (
     <AppContext.Provider value={{ data, setData }}>
     <div className="shell">
-      <header>
-        <div className="fixed-width">
-          LOGO
-        </div>
-      </header>
       <main>{props.children}</main>
     </div>
     </AppContext.Provider>

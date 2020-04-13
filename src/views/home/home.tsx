@@ -1,12 +1,13 @@
 import * as React from "react";
 import * as _ from "underscore";
-import { Button } from "@rocketmakers/armstrong";
+import { Button, Icon } from "@rocketmakers/armstrong";
 import { RouteComponentProps } from 'react-router';
 
 import "./home.scss";
-import { AppContext } from '../shell';
 
 export const HomeView: React.FunctionComponent<RouteComponentProps> = props => {
+  const audio = React.useRef<HTMLAudioElement>();
+  const [muted, setMuted] = React.useState(false);
   const [spinning, setSpinning] = React.useState(false);
   const greetings = [
     "Look out, here comes", 
@@ -18,7 +19,7 @@ export const HomeView: React.FunctionComponent<RouteComponentProps> = props => {
     "It is me. The",
     "It's the magical, the wonderful",
     "Classic",
-    "I guess we best hear from",
+    "I guess we should hear from",
     "Fresh out of the circus it's",
     "The hero Gotham needs... It's",
     "I sure hope everyones ready for",
@@ -27,21 +28,22 @@ export const HomeView: React.FunctionComponent<RouteComponentProps> = props => {
     "The one and only",
     "*THE* original gangster",
     "Lock your doors and close the curtains, it's",
-    "The stage is yours"
+    "The stage is yours",
+    "Wow man. It's"
   ]
+  const [greetingsPool, setGreetingsPool] = React.useState(greetings)
+  const [currentGreeting, setCurrentGreeting] = React.useState("");
+  //const names = ["Adam", "Ben", "Phil"]
   const names = ["Adam", "Ben", "Phil", "Joe", "Danny", "Keith", "Richard", "Nathan", "Sam", "Alice", "Luke", "Nick", "Dave H", "Dave K", "Hannah", "Audrey", "Katie", "Matt", "Briony", "James", "John", "Patrick", "Rob", "Evan", "Jonny", "Felix", "Vince"];
   const [namesLeft, setNamesLeft] = React.useState(names);
   const [currentName, setCurrentName] = React.useState("");
 
   const [transitionsEnabled, setTransitionsEnabled] = React.useState(true);
   const segmentSize = 360 / names.length;
-  const extraSpins = 5;
-  const spinTime = 3;
+  const extraSpins = 6;
+  const spinTime = 4.2;
 
   const [angle, setAngle] = React.useState(segmentSize / 2);
-
-
-  const { data } = React.useContext(AppContext)
 
   const pickName = () => {
     if (spinning) {
@@ -63,7 +65,19 @@ export const HomeView: React.FunctionComponent<RouteComponentProps> = props => {
     const index = names.length - personIndex;
     const targetAngle = (personAngle * index) + offset;
     setAngle(targetAngle + (360 * extraSpins));
+    if (audio.current){
+      audio.current.pause();
+      audio.current.currentTime = 0;
+      audio.current.play();
+    }
     window.setTimeout(() => {
+      const greeting = _.sample<string>(greetingsPool);
+      setCurrentGreeting(greeting);
+      if (greetingsPool.length > 1){
+        setGreetingsPool(_.reject(greetingsPool, g => g === greeting));
+      } else {
+        setGreetingsPool([...greetings])
+      }
       setSpinning(false);
       setTransitionsEnabled(false);
       setAngle(targetAngle);
@@ -74,10 +88,12 @@ export const HomeView: React.FunctionComponent<RouteComponentProps> = props => {
 
   return (
     <div className="wrapper">
+      <audio muted={muted} ref={audio} src={require('../../assets/audio/cd.mp3')}/>
+      <Button className="mute-button" onClick={() => setMuted(!muted)} leftIcon={muted ? Icon.Icomoon.volumeMute4 : Icon.Icomoon.volume0}/>
       <div className="wheel-house">
         <div className="wheel" style={{ transitionProperty: transitionsEnabled ? 'all' : 'none', transform: `rotate(${angle}deg)`, transitionDuration: `${spinTime}s` }}>
           {names.map((name, index) =>
-            <div className="seg" style={{ transform: `rotate(${segmentSize * index}deg)` }}>
+            <div className={`seg${namesLeft.includes(name) ? '' : ' drawn'}`} style={{ transform: `rotate(${segmentSize * index}deg)` }}>
               <label style={{ transform: `translateY(-50%) rotate(${segmentSize / 2}deg)` }}>{name}</label>
               <div style={{ transform: `translateY(-50%) rotate(${segmentSize / 2}deg)` }} className="peg" />
             </div>
@@ -90,11 +106,11 @@ export const HomeView: React.FunctionComponent<RouteComponentProps> = props => {
         <div className="name-holder">
         {currentName && 
         <>
-        <h2>{_.sample(greetings)}</h2>
-        <h1>{currentName}.</h1>
+        <h2 className="slide-in-down">{currentGreeting}</h2>
+        <h1 className="scale-down-in">{currentName}.</h1>
         </>}
         </div>
-        <Button pending={spinning} className="shadow bg-brand-primary" onClick={pickName}>SPIN THE WHEEL!</Button>
+        <Button disabled={namesLeft.length === 0} pending={spinning} className="shadow bg-brand-primary" onClick={pickName}>{namesLeft.length === 0 ? 'It\'s all over' : 'SPIN THE WHEEL!'}</Button>
       </div>
     </div>
   );

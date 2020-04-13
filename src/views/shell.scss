@@ -8,11 +8,10 @@ body,
 }
 
 .shell{
-  display: grid;
-  height: 100%;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-  grid-template-areas: "." ".";
+  main{
+    height: 100%;
+    
+  }
 }
 
 header{
