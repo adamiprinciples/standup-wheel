@@ -34,9 +34,7 @@ export const HomeView: React.FunctionComponent<RouteComponentProps> = props => {
   const [greetingsPool, setGreetingsPool] = React.useState(greetings)
   const [currentGreeting, setCurrentGreeting] = React.useState("");
   //const names = ["Adam", "Ben", "Phil"]
-  const names = ["Adam", "Ben", "Phil", "Joe", "Danny", "Keith", "Richard", "Nathan", "Alice", "Luke", "Dave H", "Dave K", "Hannah", "Audrey", "Katie", "Matt", "Briony", "James", "John", "Patrick", "Rob", "Evan", "Jonny", "Felix", "Vince"];
-  const onHoliday = ["Patrick", "Nick", "Sam"];
-
+  const names = ["Adam", "Ben", "Phil", "Joe", "Danny", "Keith", "Richard", "Nathan", "Sam", "Alice", "Luke", "Nick", "Dave H", "Dave K", "Hannah", "Audrey", "Katie", "Matt", "Briony", "James", "John", "Patrick", "Rob", "Evan", "Jonny", "Felix", "Vince"];
   const [namesLeft, setNamesLeft] = React.useState(names);
   const [currentName, setCurrentName] = React.useState("");
 
