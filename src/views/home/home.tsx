@@ -34,7 +34,9 @@ export const HomeView: React.FunctionComponent<RouteComponentProps> = props => {
   const [greetingsPool, setGreetingsPool] = React.useState(greetings)
   const [currentGreeting, setCurrentGreeting] = React.useState("");
   //const names = ["Adam", "Ben", "Phil"]
-  const names = ["Adam", "Ben", "Phil", "Joe", "Danny", "Keith", "Richard", "Nathan", "Sam", "Alice", "Luke", "Nick", "Dave H", "Dave K", "Hannah", "Audrey", "Katie", "Matt", "Briony", "James", "John", "Patrick", "Rob", "Evan", "Jonny", "Felix", "Vince"];
+  const names = ["Adam", "Ben", "Phil", "Joe", "Danny", "Keith", "Richard", "Nathan", "Alice", "Luke", "Dave H", "Dave K", "Hannah", "Audrey", "Katie", "Matt", "Briony", "James", "John", "Patrick", "Rob", "Evan", "Jonny", "Felix", "Vince"];
+  const onHoliday = ["Patrick", "Nick", "Sam"];
+
   const [namesLeft, setNamesLeft] = React.useState(names);
   const [currentName, setCurrentName] = React.useState("");
 
@@ -91,9 +93,9 @@ export const HomeView: React.FunctionComponent<RouteComponentProps> = props => {
       <audio muted={muted} ref={audio} src={require('../../assets/audio/cd.mp3')}/>
       <Button className="mute-button" onClick={() => setMuted(!muted)} leftIcon={muted ? Icon.Icomoon.volumeMute4 : Icon.Icomoon.volume0}/>
       <div className="wheel-house">
-        <div className="wheel" style={{ transitionProperty: transitionsEnabled ? 'all' : 'none', transform: `rotate(${angle}deg)`, transitionDuration: `${spinTime}s` }}>
+        <div className={`wheel ${spinning ? 'spinning': ''}`} style={{ transitionProperty: transitionsEnabled ? 'all' : 'none', transform: `rotate(${angle}deg)`, transitionDuration: `${spinTime}s` }}>
           {names.map((name, index) =>
-            <div className={`seg${namesLeft.includes(name) ? '' : ' drawn'}`} style={{ transform: `rotate(${segmentSize * index}deg)` }}>
+            <div className={`seg${namesLeft.includes(name) ? '' : ' drawn'}${currentName === name ? ' active': ''}`} style={{ transform: `rotate(${segmentSize * index}deg)` }}>
               <label style={{ transform: `translateY(-50%) rotate(${segmentSize / 2}deg)` }}>{name}</label>
               <div style={{ transform: `translateY(-50%) rotate(${segmentSize / 2}deg)` }} className="peg" />
             </div>

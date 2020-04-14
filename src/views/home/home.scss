@@ -81,7 +81,7 @@ h1{
 }
 
 .wheel{
-  background: #303030; 
+  background: #272727; 
   border-radius: 50%;
   height: 500px;
   width: 500px;
@@ -89,6 +89,7 @@ h1{
   border: 5px solid #a1110d;
   transition-property: all;
   transition-timing-function: ease-out;
+  
   .center{
     position: absolute;
     top: 50%;
@@ -133,11 +134,19 @@ h1{
       padding-right: 20px;
       font-size: 20px;
       color: white;
-      font-weight: 500;
+      font-weight: 300;
+      transition: all 0.1s;
+      opacity: 0.8;
     }
     &.drawn{
       label{
         opacity: 0.2;
+      }
+    }
+    &.active{
+      label{
+        opacity: 1;
+        font-weight: 800;
       }
     }
     .peg{
